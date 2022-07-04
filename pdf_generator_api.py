@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import Response
 import json
 import time
 from python_anvil.api import Anvil
@@ -56,7 +57,7 @@ def handle_request():
     # Write the bytes to disk
     with open('./file.pdf', 'wb') as f:
         f.write(res)
-    return res
+    return Response(res, mimetype='application/pdf')
 
 
 
