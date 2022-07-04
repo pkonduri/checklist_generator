@@ -1,2 +1,2 @@
-web: gunicorn greeting:app
+web: gunicorn pdf_generator_api:app
 
