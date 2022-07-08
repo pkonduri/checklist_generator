@@ -74,7 +74,7 @@ def handle_request():
 
     # Write the bytes to disk
     with open('./file.pdf', 'wb') as f:
-        f.write(request.data)
+        f.write(request.form)
         # f.write(res.data)
     return Response(request.data, mimetype='application/pdf')
 
