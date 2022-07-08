@@ -27,7 +27,6 @@ def handle_request():
     file_name = request.args.get('file_name')
     print(file_name, flush=True)
     print(request.data, flush=True)
-
     # invoice_json = veryfi(file_name)
 
     with open('./veryfi_invoice.json', 'r') as f:
@@ -76,6 +75,7 @@ def handle_request():
     # Write the bytes to disk
     with open('./file.pdf', 'wb') as f:
         f.write(request.data)
+        # f.write(res.data)
     return Response(request.data, mimetype='application/pdf')
 
 
