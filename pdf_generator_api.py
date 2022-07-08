@@ -1,20 +1,37 @@
+from python_anvil.api import Anvil
+from veryfi import Client
 from flask import Flask
 from flask import request
 from flask import Response
 import json
 import time
-from python_anvil.api import Anvil
-
+import sys
 
 app = Flask(__name__)
-API_KEY = '9gdAke4H4TMfBVSZ9f2JvLUW74UyLPnv'
+
+ANVIL_API_KEY = '9gdAke4H4TMfBVSZ9f2JvLUW74UyLPnv'
+VERYFI_client_id = 'vrf1y2ZSTzb0jlLZcO70FX50k6mEY4zfLuC901i'
+VERYFI_client_secret = 'dO3BKiCEKFOYjuW6PpxsYsnCAwX8t99FMsbTTaDhrjOo2jOFIjptEkslEvzVAByGitUZCOrWmnyIi0PaMsNcy0btuj1NT7wfri79rExfeduTjMPldHnS9Upxzc0cV8fC'
+VERYFI_username = 'pradhith'
+VERYFI_API_KEY = '89351e076d3241cc9c94f662ca5ef677'
+
+def veryfi(file_path):
+    # file_path = '/Users/pradhithkonduri/Documents/Projects/abridge/shipping_docs/modern/inv-pac-mf-02706032022.pdf'
+    veryfi_client = Client(VERYFI_client_id, VERYFI_client_secret, VERYFI_username, VERYFI_API_KEY)
+    response = veryfi_client.process_document(file_path)
+    print(response)
+    return response
 
 @app.route('/result', methods=['GET', 'POST'])
 def handle_request():
+    file_name = request.args.get('file_name')
+    print(file_name, flush=True)
+    # invoice_json = veryfi(file_name)
+
     with open('./veryfi_invoice.json', 'r') as f:
       invoice_json = json.load(f)
 
-    anvil = Anvil(api_key=API_KEY)
+    anvil = Anvil(api_key=ANVIL_API_KEY)
 
     # Your fill payload. A number of things can be styled at the
     # document-level, and each field can also be styled individually with the
@@ -58,7 +75,6 @@ def handle_request():
     with open('./file.pdf', 'wb') as f:
         f.write(res)
     return Response(res, mimetype='application/pdf')
-
 
 
 # values that can be manually configured
