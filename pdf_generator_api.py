@@ -26,6 +26,8 @@ def veryfi(file_path):
 def handle_request():
     file_name = request.args.get('file_name')
     print(file_name, flush=True)
+    print(request.data, flush=True)
+
     # invoice_json = veryfi(file_name)
 
     with open('./veryfi_invoice.json', 'r') as f:
