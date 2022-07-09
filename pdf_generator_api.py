@@ -26,7 +26,7 @@ def veryfi(file_path):
 def handle_request():
     file_name = request.args.get('file_name')
     print("file name is {}".format(file_name), flush=True)
-    print("request data is {}".format(request.data), flush=True)
+    print("request data is {}".format(request.files['file']), flush=True)
     # invoice_json = veryfi(file_name)
 
     with open('./veryfi_invoice.json', 'r') as f:
@@ -70,13 +70,13 @@ def handle_request():
     # Fill the provided cast eid (see PDF Templates in your Anvil account)
     # with the data above. This will return bytes for use in directly writing
     # to a file.
-    # res = anvil.fill_pdf('CMIl2utivVsd29VkX9B9', data)
+    res = anvil.fill_pdf('CMIl2utivVsd29VkX9B9', data)
 
     # Write the bytes to disk
     with open('./file.pdf', 'wb') as f:
-        f.write(request.data)
-        # f.write(res)
-    return Response(request.data, mimetype='application/pdf')
+        # f.write(request.data)
+        f.write(res)
+    return Response(request.files['file'].read(), mimetype='application/pdf')
 
 
 # values that can be manually configured
